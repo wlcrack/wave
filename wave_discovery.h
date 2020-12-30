@@ -1,0 +1,52 @@
+#ifndef _WAVE_DISCOVERY_H_
+#define _WAVE_DISCOVERY_H_
+
+#include "wave_util.h"
+
+#define ICMP_DATA_LEN 1500
+
+typedef enum
+{
+    ICMP = 0,
+    TCP_SYN     = 1,
+    TCP_FIN     = 2,
+    TCP_ACK     = 3,
+    TCP_WINDOWN = 4,
+    UDP         = 5
+}e_dis_t;
+
+typedef enum 
+{
+    ICMP_ECHO      = 0,
+    ICMP_TIMESTAMP = 1,
+    ICMP_MASK      = 2
+}e_icmp_t;
+
+typedef struct icmp_pkg 
+{
+    // header
+    u8 type;
+    u8 code;
+    u16 checksum;
+    u16 ident;
+    u16 seq;
+    u8 data[ICMP_DATA_LEN];
+    u32 offset;
+}icmp_pack_t;
+
+
+typedef struct target
+{
+    char *addr_ver_4;
+    short port;
+    char *addr_ver_6;
+}target_t;
+
+/*pack build func*/
+u8 * build_icmp_pack(e_icmp_t type);
+
+/*scan func*/
+int wave_icmp_scan(e_icmp_t type);
+
+#endif
+
