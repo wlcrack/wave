@@ -20,7 +20,7 @@ typedef enum
     ICMP_ECHO      = 0,
     ICMP_TIMESTAMP = 1,
     ICMP_MASK      = 2
-}e_icmp_t;
+}ICMP_TYPE;
 
 typedef struct icmp_pkg 
 {
@@ -43,10 +43,10 @@ typedef struct target
 }target_t;
 
 /*pack build func*/
-u8 * build_icmp_pack(e_icmp_t type);
+u8 * build_icmp_pack(ICMP_TYPE type);
 
 /*scan func*/
-int wave_icmp_scan(e_icmp_t type);
+int wave_icmp_scan(ICMP_TYPE type);
 
 #endif
 

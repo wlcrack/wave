@@ -1,7 +1,13 @@
 #include <string.h>
-#include "wave_comm.h"
+#include <stdio.h>
+#include <arpa/inet.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <stdlib.h>
+#include "wave_net.h"
+#include "wave_discovery.h"
 
-int raw_socket(char *type, int timeout)
+int raw_socket(, int timeout)
 {
     if (type == NULL)
         return -1;
@@ -36,7 +42,7 @@ int raw_socket(char *type, int timeout)
     return sock;
 }
 
-int raw_ip4_send(int sock, u8 * msg)
+int raw_ip4_send(int sock, u8 * msg, int len)
 {
     int n_send = -1;
     target_t target;
@@ -49,23 +55,22 @@ int raw_ip4_send(int sock, u8 * msg)
         return -1;
     
     /*fill up the ip v4*/
+    /*
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = target.port;
     inet_aton(target.addr_ver_4, 
             (struct in_addr*)&addr.sin_addr.s_addr);
     
-    n_send = sendto(sock, msg, sizeof(icmp), 0,
-        (struct sockaddr*)addr, sizeof(*addr));
+    sendto(sock, msg, len, 0,(struct sockaddr*)addr, sizeof(addr));*/
     
-    if (n_send <= 0){
-        printf("send failed, n_send:[%s].\n", n_send);
-        return -1;
-    }
     return n_send;
 }
 
 
-
+void raw_sock_close(int sock)
+{
+    close(sock);
+}
 
 

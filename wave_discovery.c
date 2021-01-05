@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <string.h>
-#include "wave_comm.h"
+#include <stdlib.h>
+#include "wave_net.h"
 #include "wave_discovery.h"
-
-struct 
 
 u8 *build_icmp_echo_pack(void)
 {
@@ -41,14 +40,8 @@ u8 *build_icmp_mask_pack(void)
 *
 *return:icmp pack
 */
-u8 * build_icmp_pack(e_icmp_t type)
+u8 * build_icmp_pack(ICMP_TYPE type)
 {
-    if(type == NULL)
-    {
-        printf("build icmp packet failed , type error:[%s]\n", type);
-        return NULL;
-    }
-
     if (type == ICMP_ECHO)
         return build_icmp_echo_pack();
     else if (type == ICMP_TIMESTAMP)
@@ -56,18 +49,26 @@ u8 * build_icmp_pack(e_icmp_t type)
     else if (type == ICMP_MASK)
         return build_icmp_mask_pack();
     else
-        printf("build icmp packet failed , type error:[%s]\n", type);
+        printf("build icmp packet failed , type error:[%d]\n", type);
     return NULL;
 }
 
-int wave_icmp_scan(e_icmp_t type)
+int wave_icmp_scan(ICMP_TYPE type)
 {
     u8 * icmp_pack = NULL;
+    int sock = -1, n_send = -1;
+    icmp_pack_t *icmp_echo = NULL;
     icmp_pack = build_icmp_pack(type);
     if (icmp_pack == NULL){
         return -1;
     }
+    icmp_echo = (icmp_pack_t *)icmp_pack;
+    sock = raw_socket(ICMP_ECHO, 10);
+    if (sock == -1)
+        return -1;
     
+    raw_ip4_send(sock, icmp_pack, icmp_echo->offset);
+    raw_sock_close(sock);
     
 }
 
