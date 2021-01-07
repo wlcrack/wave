@@ -7,7 +7,7 @@
 #include "wave_net.h"
 #include "wave_discovery.h"
 
-int raw_socket(, int timeout)
+int raw_socket(SOCK_TYPE type, int timeout)
 {
     if (type == NULL)
         return -1;
@@ -16,11 +16,10 @@ int raw_socket(, int timeout)
     int proto, ret;
     struct timeval tv;
     
-    if(strcmp(type, "ICMP") == 0)
+    if(type == ICMP)
         proto = IPPROTO_ICMP;
-    else if (strcmp(type, "") == 0)
-        ;
-    
+    else
+        proto = IPPROTO_ICMP;
     sock = socket(AF_INET, SOCK_RAW, proto);
     if (sock == -1) {
         printf("socket create failed, type:[%s]\n", type);

@@ -5,15 +5,6 @@
 
 #define ICMP_DATA_LEN 1500
 
-typedef enum
-{
-    ICMP = 0,
-    TCP_SYN     = 1,
-    TCP_FIN     = 2,
-    TCP_ACK     = 3,
-    TCP_WINDOWN = 4,
-    UDP         = 5
-}e_dis_t;
 
 typedef enum 
 {
