@@ -13,8 +13,7 @@ typedef enum
     UDP         = 5
 }SOCK_TYPE;
 
-int raw_socket(char *type, int timeout);
-int raw_ip4_send(int sock, u8 * msg, int len);
+int raw_socket(SOCK_TYPE type, int timeout);
 void raw_sock_close(int sock);
 
 #endif
