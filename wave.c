@@ -43,7 +43,7 @@ int wave(int argc, char * argv [])
         
     }
 
-    wave_icmp_scan(ICMP_ECHO);
+    //wave_icmp_scan(ICMP_ECHO);
     return 0;
 }
 
