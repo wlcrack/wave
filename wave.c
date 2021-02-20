@@ -1,6 +1,5 @@
 #include<stdio.h>
 #include<stdlib.h>
-#include<unistd.h>
 #include<getopt.h>
 
 #include "wave_list.h"
@@ -10,7 +9,7 @@ int wave_debug = 0;
 struct list_head wave_target;
 
 
-void usage(){
+static void usage(){
     const char *usege = "                          ___\n"
                   "\\    /\\    /  /\\  \\    /  |\n"
                   " \\  /  \\  /  /--\\  \\  /   ———\n"
@@ -30,7 +29,7 @@ int wave(int argc, char * argv [])
     
     if(argc < 2){
         usage();
-        exit(-1);
+        exit(EXIT_FAILURE);
     }
 
     while ((opt = getopt(argc, argv, wave_options))!= -1){
@@ -44,7 +43,7 @@ int wave(int argc, char * argv [])
             default:
                 printf("The option [%c] is not support!\n", opt);
                 usage();
-                exit(-1);
+                exit(EXIT_FAILURE);
         }
         
     }

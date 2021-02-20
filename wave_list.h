@@ -50,7 +50,8 @@ static inline void list_add_tail(struct list_head *new, struct list_head *head)
  /* if empty return 1,else 0 */
 static inline int list_empty(const struct list_head *head)
 {
-	return head->next == head;
+        /*use marcon READ_ONCE , use volatile */
+	return  head->next == head;
 }
  
 /*

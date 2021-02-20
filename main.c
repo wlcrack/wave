@@ -3,6 +3,7 @@
 
 int main(int argc, char *argv[])
 {
-    wave(argc, argv);
-    return 0;
+    int ret = 0;
+    ret = wave(argc, argv);
+    return ret;
 }
