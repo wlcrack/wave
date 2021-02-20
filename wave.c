@@ -1,13 +1,11 @@
 #include<unistd.h>
 #include<getopt.h>
 
-#include "wave.h"
-#include "wave_discovery.h"
-#include "wave_makeaddr.h"
+#include "wave_list.h"
 
 int wave_debug = 0;
 /*target list head*/
-struct list_head target;
+struct list_head wave_target;
 
 
 void usage(){
@@ -31,7 +29,8 @@ int wave(int argc, char * argv [])
     while ((opt = getopt(argc, argv, wave_options))!= -1){
         switch(opt){
             case 't':
-                
+                printf("target %s\n", optarg);
+                break;
             case 'd':
                 wave_debug = 1;
                 break;
