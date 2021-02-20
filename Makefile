@@ -2,14 +2,18 @@
 CC=gcc
 CXX=g++
 CFLAGS +=  -g3 -O2
-OBJ=main.o  wave.o
 
-wave:$(OBJ)
-    $(CC) $(CFLAGS) -c main.c
+wave:main.o wave.o
+	$(CC) $(CFLAGS)  main.o wave.o -o wave
     
-main.o:main.c wave.h
-    $(CC) $(CFLAGS) -c main.c
+main.o:main.c
+	$(CC) $(CFLAGS) -c main.c
 
-wave.o:wave.c wave.h wave_discovery.h wave_makeaddr.h
-    $(CC) $(CFLAGS) -c wave.c
+wave.o:wave.c wave_list.h
+	$(CC) $(CFLAGS) -c wave.c wave_list.h
+
+
+.PHONY:clean
+clean:
+	rm -rf *.o wave
 

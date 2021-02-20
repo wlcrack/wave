@@ -1,3 +1,5 @@
+#include<stdio.h>
+#include<stdlib.h>
 #include<unistd.h>
 #include<getopt.h>
 
@@ -9,11 +11,11 @@ struct list_head wave_target;
 
 
 void usage(){
-    printf("                              ___\n");
-    printf("\     /\     /  /\  \     /  |\n");
-    printf(" \   /  \   /  /--\  \   /   ————\n");
-    printf("  \_/    \_/  /    \  \_/    |___\n");
-    printf("\n");
+    const char *usege = "                          ___\n"
+                  "\\    /\\    /  /\\  \\    /  |\n"
+                  " \\  /  \\  /  /--\\  \\  /   ———\n"
+                  "  \\/    \\/  /    \\  \\/    |__\n";
+    printf("%s\n", usege);
     printf("  There are opeions:\n");
     printf("  -t, The scan target domain or ipaddress\n");
     printf("  -d, debug options.\n");
@@ -35,7 +37,7 @@ int wave(int argc, char * argv [])
                 wave_debug = 1;
                 break;
             default:
-                printf("The option [%c] is not support!", opt);
+                printf("The option [%c] is not support!\n", opt);
                 usage();
                 exit(-1);
         }
