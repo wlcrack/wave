@@ -11,5 +11,5 @@ main.o:main.c wave.h
     $(CC) $(CFLAGS) -c main.c
 
 wave.o:wave.c wave.h wave_discovery.h wave_makeaddr.h
-	$(CC) $(CFLAGS) -c wave.c
+    $(CC) $(CFLAGS) -c wave.c
 
