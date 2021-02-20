@@ -27,6 +27,11 @@ int wave(int argc, char * argv [])
 
     int opt;
     char *wave_options = "t:d";
+    
+    if(argc < 2){
+        usage();
+        exit(-1);
+    }
 
     while ((opt = getopt(argc, argv, wave_options))!= -1){
         switch(opt){
