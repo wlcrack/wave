@@ -15,5 +15,5 @@ wave.o:wave.c wave_list.h
 
 .PHONY:clean
 clean:
-	rm -rf *.o wave
+	rm -rf *.o wave *.h.gch
 
