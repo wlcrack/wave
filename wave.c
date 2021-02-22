@@ -4,6 +4,8 @@
 
 #include "wave_list.h"
 
+static char *wave_version = "wave version - 0.1";
+
 int wave_debug = 0;
 /*target list head*/
 struct list_head wave_target;
@@ -25,7 +27,7 @@ int wave(int argc, char * argv [])
 {
 
     int opt;
-    char *wave_options = "t:d";
+    static char *wave_options = "t:dv";
     
     if(argc < 2){
         usage();
@@ -39,6 +41,9 @@ int wave(int argc, char * argv [])
                 break;
             case 'd':
                 wave_debug = 1;
+                break;
+            case 'v':
+                printf("%s\n", wave_version);
                 break;
             default:
                 printf("The option [%c] is not support!\n", opt);
