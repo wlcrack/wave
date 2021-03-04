@@ -6,7 +6,7 @@
 #include "wave.h"
 #include "wave_list.h"
 
-#define WAVE_HOSTLEN 128
+#define WAVE_HOSTLEN  256
 
 /*VERSION*/
 static char *wave_version = "wave version - 0.1";

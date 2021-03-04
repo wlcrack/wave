@@ -63,7 +63,20 @@ int target_del(){
     return 0;
 }
 
+void str_trim(char *str) {
+  
+  if (!str)
+    return ;
+  
+  char *p_str = str;
 
+  while(*p_str) {
+    if (*p_str != 0x20)
+      *p_str++ = *str;
+    str++;
+  }
+  p_str = '\0';
+}
 
 int wave_makeaddr(char *wave_host)
 {
