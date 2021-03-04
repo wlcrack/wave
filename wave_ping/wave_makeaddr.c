@@ -63,10 +63,16 @@ int target_del(){
     return 0;
 }
 
-int wave_makeaddr()
+
+
+int wave_makeaddr(char *wave_host)
 {
     int i = 0 ;
     target_t *new_target = NULL;
+
+    if (wave_host == NULL)
+	    return -1;
+    
     
     if (target_head_init() != 0)
         return -1;

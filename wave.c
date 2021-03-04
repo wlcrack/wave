@@ -1,14 +1,20 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<getopt.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <getopt.h>
+#include <string.h>
 
+#include "wave.h"
 #include "wave_list.h"
 
-static char *wave_version = "wave version - 0.1";
+#define WAVE_HOSTLEN 128
 
+/*VERSION*/
+static char *wave_version = "wave version - 0.1";
+/*DEBUG*/
 int wave_debug = 0;
-/*target list head*/
+/*TARGET HEADER*/
 struct list_head wave_target;
+
 
 
 static void usage(){
@@ -17,9 +23,10 @@ static void usage(){
                   " \\  /  \\  /  /--\\  \\  /   ———\n"
                   "  \\/    \\/  /    \\  \\/    |__\n";
     printf("%s\n", usege);
-    printf("  There are opeions:\n");
-    printf("  -t, The scan target domain or ipaddress\n");
-    printf("  -d, debug options.\n");
+    printf("There Are Options:\n");
+    printf("  -t, Scan Target Domain Or IPAddress.\n");
+    printf("  -d, Debug Module.\n");
+    printf("  -v, Wave Major Version.\n");
 
 }
 
@@ -27,6 +34,9 @@ int wave(int argc, char * argv [])
 {
 
     int opt;
+    static char wave_host[WAVE_HOSTLEN] = {0};
+
+    /*wave command options*/
     static char *wave_options = "t:dv";
     
     if(argc < 2){
@@ -37,7 +47,7 @@ int wave(int argc, char * argv [])
     while ((opt = getopt(argc, argv, wave_options))!= -1){
         switch(opt){
             case 't':
-                printf("target %s\n", optarg);
+                strncpy(wave_host, optarg, WAVE_HOSTLEN);
                 break;
             case 'd':
                 wave_debug = 1;
@@ -53,7 +63,7 @@ int wave(int argc, char * argv [])
         
     }
 
-    //wave_icmp_scan(ICMP_ECHO);
+
     return 0;
 }
 
