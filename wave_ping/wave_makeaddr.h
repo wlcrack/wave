@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include "wave_list.h"
 
+#define WAVE_HOSTLEN 128
+
 typedef enum{
     IP_VER4 = 0,
     IP_VER6 = 1
@@ -24,8 +26,9 @@ typedef struct target{
     struct list_head list; 
 }target_t;
 
-int target_head_init;
-int target_del();
-target_t *target_make(char *addr, int port, IP_VER_T type);
+typedef struct wave_host {
+  char host[WAVE_HOSTLEN];
+  IP_VER_T type;
+} wave_host_t;
 
 #endif /*end _WAVE_MAKE_ADDR_*/

@@ -4,7 +4,7 @@
 AC_PREREQ([2.69])
 AC_INIT([wave], [0.1], [])
 AM_INIT_AUTOMAKE([1.16.1])
-AC_CONFIG_SRCDIR([wave_util.h])
+AC_CONFIG_SRCDIR([wave.c])
 AC_CONFIG_HEADERS([config.h])
 
 # Checks for programs.
@@ -23,6 +23,6 @@ AC_TYPE_UINT32_T
 
 # Checks for library functions.
 AC_FUNC_MALLOC
-AC_CHECK_FUNCS([memset socket strdup])
+AC_CHECK_FUNCS([memset socket strdup strtok_r])
 
-AC_OUTPUT(Makefile)
+AC_OUTPUT(Makefile wave_ping/Makefile)

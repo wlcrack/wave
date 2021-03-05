@@ -17,27 +17,31 @@ struct list_head wave_target;
 
 
 
-static void usage(){
-    const char *usege = "                          ___\n"
-                  "\\    /\\    /  /\\  \\    /  |\n"
-                  " \\  /  \\  /  /--\\  \\  /   ———\n"
-                  "  \\/    \\/  /    \\  \\/    |__\n";
-    printf("%s\n", usege);
+static void usage() {
     printf("There Are Options:\n");
     printf("  -t, Scan Target Domain Or IPAddress.\n");
     printf("  -d, Debug Module.\n");
     printf("  -v, Wave Major Version.\n");
-
 }
+
+static int wave_mkaddr(char *host) {
+  int ret = 0;
+  if (!host)
+    return -1;
+
+  ret = wave_makeaddr(host);
+  return ret;
+}
+
 
 int wave(int argc, char * argv [])
 {
 
     int opt;
-    static char wave_host[WAVE_HOSTLEN] = {0};
+    static char wave_host[WAVE_HOSTLEN] = {'\0'};
 
     /*wave command options*/
-    static char *wave_options = "t:dv";
+    static const char *wave_options = "t:dv";
     
     if(argc < 2){
         usage();
@@ -63,7 +67,15 @@ int wave(int argc, char * argv [])
         
     }
 
+    
+  if (!wave_host || wave_host[0] == 0x00)
+    exit(EXIT_FAILURE);
 
-    return 0;
+
+  wave_mkaddr(wave_host);
+
+  return 0;
 }
+
+
 
