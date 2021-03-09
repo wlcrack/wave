@@ -7,6 +7,7 @@
 
 int   str_chcnt(char *str , char ch); 
 void  str_trim(char *str); 
+unsigned char *re_check(char *parttern, char *text);
 
 #define PRINT(x...) printf(x)
 

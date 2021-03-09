@@ -11,7 +11,8 @@ extern int WAVE_DEBUG;
 typedef enum {
   IP_UNKNOW = 0,
   IP_V4     = 1,
-  IP_V6     = 2
+  IP_V6     = 2,
+  IP_DOMAIN = 3
 }IP_E;
 
 typedef struct {
@@ -19,7 +20,6 @@ typedef struct {
   char    *ip; 
   IP_E    type;
 }IP_T;
-
 
 static void cidrl4(char *str) {
   
@@ -75,6 +75,8 @@ static void cidrl6(char *str) {
 }
 
 static inline int  _iptyp_check(char *str) {
+
+  unsigned char *match = NULL;
   
   if (!str)
     return IP_UNKNOW;
@@ -84,8 +86,14 @@ static inline int  _iptyp_check(char *str) {
     return IP_V4;
   else if (str_chcnt(str, ':') >= 1)
     return IP_V6;
+  else if((match = re_check("*.[a-zA-Z]+$", str)) != NULL) {
+    free(match);
+    return IP_DOMAIN;
+  }
   return IP_UNKNOW;
 }
+
+
 
 int parse_addr(char *all_host) {
   
@@ -113,10 +121,13 @@ int parse_addr(char *all_host) {
     
     tp =  _iptyp_check(ptr_ret);
 
-    if (tp != IP_UNKNOW && strlen(ptr_ret) <= WAVE_MAX_IP_LEN) {
+    if (tp != IP_UNKNOW && tp != IP_DOMAIN && strlen(ptr_ret) <= WAVE_MAX_IP_LEN) {
       host[i].ip = strdup(ptr_ret);
       host[i].type = tp;
       i++;
+    }
+    else if (tp == IP_DOMAIN) {
+      printf("domain #######\n");
     }
 
     ptr_ret = strtok_r(NULL, ",", &ptr_save);

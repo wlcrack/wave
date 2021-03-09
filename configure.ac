@@ -14,7 +14,7 @@ AC_PROG_LIBTOOL
 # Checks for libraries.
 
 # Checks for header files.
-AC_CHECK_HEADERS([arpa/inet.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h])
+AC_CHECK_HEADERS([arpa/inet.h stddef.h stdint.h stdlib.h string.h sys/time.h unistd.h regex.h])
 
 # Checks for typedefs, structures, and compiler characteristics.
 AC_C_INLINE
