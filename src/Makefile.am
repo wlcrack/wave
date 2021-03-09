@@ -5,7 +5,7 @@ AUTOMAKE_OPTIONS = foreign
 bin_PROGRAMS = wave
 
 ################
-wave_SOURCES = wave.c 
+wave_SOURCES = wave.c wave_mkaddr.c wave_types.c
 
 ################
 wave_CPPFLAGS = -g3 -DCONFIG_DIR=\“$(sysconfdir)\” -DLIBRARY_DIR=\”$(pkglibdir)\”

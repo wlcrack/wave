@@ -3,6 +3,11 @@
 
 #include <stdio.h>
 
+/*REG Functions*/
+
+int   str_chcnt(char *str , char ch); 
+void  str_trim(char *str); 
+
 #define PRINT(x...) printf(x)
 
 #endif
