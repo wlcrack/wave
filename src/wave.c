@@ -23,12 +23,14 @@ static struct option option_l[] = {
   {0, 0, 0, 0},
 };
 
-
 static unsigned char process_stop = 0;
+
+/*host list head*/
+LIST_HEAD_T HOST_HEAD;
 
 static void ctrlc_handler() {
   process_stop = 1;
-  /*exit*/
+  /*exit off this option*/
   exit(0);
 }
 
@@ -95,7 +97,10 @@ int wave(int argc, char *argv[]) {
   /*parse addr */
   if (strlen(host_cache) <= 0)
     return -1;
-  parse_addr(host_cache);
+  addr_lpush(host_cache);
+
+  /*del addr , release list src*/
+  addr_ldel();
 
 
   return 0;

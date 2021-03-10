@@ -99,5 +99,7 @@ static inline void list_del(struct list_head *entry)
 #define list_first_entry(ptr, type, member) \
         list_entry((ptr)->next, type, member)
 
+typedef struct list_head LIST_HEAD_T;
+
 #endif /*END _WAVE_LIST_H_*/ 
 

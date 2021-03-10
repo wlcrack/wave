@@ -5,6 +5,7 @@
 
 
 /*external function*/
-extern int parse_addr(char *all_host);
+extern int addr_lpush(char *all_host);
+extern void addr_ldel();
 
 #endif

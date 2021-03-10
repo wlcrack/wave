@@ -6,7 +6,7 @@
 
 
 #define REG_CURRENT_SIZE 1024
-#define REG_MATCH_COUNT  2
+#define REG_MATCH_COUNT  1 
 
 extern int WAVE_DEBUG;
 
@@ -71,40 +71,49 @@ unsigned char *re_check(char *pattern, char *text) {
   if (!pattern || !text)
     return NULL;
   
-  if (WAVE_DEBUG)
-    printf("pattern:[%s] text:[%s] \n", pattern, text);
-
-  int status = 0;
-  int current_size = REG_CURRENT_SIZE;
-  const size_t nmatch = REG_MATCH_COUNT; 
-  regmatch_t pmatch[nmatch];
+  unsigned char *match_p = NULL;
+  int status = 0, match_len = 0;
+  regmatch_t pmatch[REG_MATCH_COUNT];
   char *ptr = text;
-  regex_t reg;
+  regex_t  reg;
+  regoff_t len;
   
   /*compile regex*/
   status = regcomp(&reg, pattern, REG_EXTENDED | REG_NEWLINE); 
   if (status != 0)
     return NULL;
   
-  unsigned char *match_text = (unsigned char *)malloc(current_size);
+  unsigned char *match_text = (unsigned char *)malloc(REG_CURRENT_SIZE);
   if (!match_text) {
     regfree(&reg);
     return NULL;
   }
 
-  memset(match_text, 0, current_size);
+  memset(match_text, 0, REG_CURRENT_SIZE);
 
   for(;;) {
     /*regex match*/
-    status = regexec(&reg, ptr, nmatch, pmatch, 0);
+    status = regexec(&reg, ptr, ARRAY_SIZE(pmatch), pmatch, 0);
     if (status != 0)
       break;
-    sprintf(match_text + strlen(match_text), "%.*s", 
-           pmatch[1].rm_eo - pmatch[1].rm_so
-          ,ptr + pmatch[1].rm_so);
+    len = pmatch[0].rm_eo - pmatch[0].rm_so;
+    match_len = strlen(match_text);
+    sprintf(match_text + match_len, "%.*s", len, ptr + pmatch[0].rm_so);
     ptr += pmatch[0].rm_eo;
-  
   }
+  
   regfree(&reg);
+
+  if (strlen(match_text) == 0) {
+    if (match_text)
+      free(match_text);
+    return NULL;
+  }
   return match_text;
 }
+
+/*
+ *date  :2021-3-10
+ *desc  :list function
+ * */
+
