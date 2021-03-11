@@ -33,8 +33,7 @@ static void addr_lprint() {
 }
 
 static void cidrl4(char *str) {
-  
-  if (!str)
+  if (!str) 
     return ;
   
   struct in_addr addr;
@@ -81,7 +80,6 @@ static void cidrl4(char *str) {
   else {
     ei_ip = si_ip = htonl(inet_addr(str));
   }
-
   /*host insert into hlist*/
   for (i = si_ip; i <= ei_ip; i++) {
     nhost = (HOST_T *) malloc (sizeof(HOST_T));
@@ -107,19 +105,28 @@ static void cidrl6(char *str) {
 static inline int  _iptyp_check(char *str) {
 
   unsigned char *match = NULL;
-  
+
+  static char *re_ipv4 =""
+          "^[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}$";
+
+  static char *re_ipv6 = ""
+          "^([0-9a-fA-F]{1,4}:){7}([0-9a-fA-F]{1,4})$";
+
+  match = re_check(re_ipv4, str);
+
   if (!str)
     return IP_UNKNOW;
-  if (str_chcnt(str, ':') >= 1 && str_chcnt(str, '.') > 2)
+
+  if ((match = re_check(re_ipv6, str)) != NULL)
     return IP_V6;
-  else if (str_chcnt(str, '.') >= 3)
+  else if ((match = re_check(re_ipv4, str)) != NULL) {
     return IP_V4;
-  else if (str_chcnt(str, ':') >= 1)
-    return IP_V6;
+  }
   else if((match = re_check(".([a-zA-Z]+$)", str)) != NULL) {
     free(match);
     return IP_DOMAIN;
   }
+
   return IP_UNKNOW;
 }
 
@@ -131,7 +138,7 @@ int addr_lpush(char *all_host) {
   int cnt = 0, i = 0, validcnt = 0;
   char *ptr_ret  = NULL;
   char *ptr_save = NULL;
-  struct hostent *host_ent = NULL;
+  struct hostent *hp = NULL;
 
   str_trim(all_host);
 
@@ -152,23 +159,25 @@ int addr_lpush(char *all_host) {
     
     tp =  _iptyp_check(ptr_ret);
 
-    if (tp != IP_UNKNOW && tp != IP_DOMAIN && strlen(ptr_ret) <= WAVE_MAX_IP_LEN) {
+    if (tp != IP_UNKNOW && tp != IP_DOMAIN && \
+         strlen(ptr_ret) <= WAVE_MAX_IP_LEN) {
       host[i].ip = strdup(ptr_ret);
       host[i].type = tp;
       i++;
     }
     else if (tp == IP_DOMAIN) {
-      host_ent = gethostbyname(ptr_ret);
-      if (host_ent) {
-        for (i = 0; host_ent->h_aliases[i]; i++) {
-          ptr_ret = inet_ntoa(*(struct in_addr*)host_ent->h_addr_list[i]);
-          tp =  _iptyp_check(ptr_ret);
-          host[i].ip = strdup(ptr_ret);
-          host[i].type = tp;
+      hp = gethostbyname(ptr_ret);
+      if (hp) {
+        for (i = 0 ; hp->h_addr_list[i]; i++) {
+	  ptr_ret = inet_ntoa(*(struct in_addr*)hp->h_addr_list[0]);
+	  if (!ptr_ret) 
+	    continue;
+	  tp =  _iptyp_check(ptr_ret);
+	  host[i].ip = strdup(ptr_ret);
+	  host[i].type = tp;
 	}
       }
     }
-
     ptr_ret = strtok_r(NULL, ",", &ptr_save);
   }
   validcnt = i;

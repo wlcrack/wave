@@ -67,7 +67,7 @@ int str_chcnt(char *str , char ch) {
  * */
 
 unsigned char *re_check(char *pattern, char *text) {
-  
+
   if (!pattern || !text)
     return NULL;
   
